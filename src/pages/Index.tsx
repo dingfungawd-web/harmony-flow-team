@@ -38,7 +38,7 @@ const causeCategories = [
 ] as const;
 
 const formSchema = z.object({
-  caseId: z.string().min(1, "請輸入案件編號"),
+  caseId: z.string().regex(/^DF\d{7}$/, "請輸入正確格式：DFXXXXXXX（DF後接7位數字）"),
   date: z.date({ required_error: "請選擇日期" }),
   reportingDept: z.string().min(1, "請選擇反映部門"),
   receivingDept: z.string().min(1, "請選擇接收部門"),
@@ -161,9 +161,9 @@ const Index = () => {
                     name="caseId"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>案件編號</FormLabel>
+                        <FormLabel>Case ID</FormLabel>
                         <FormControl>
-                          <Input placeholder="例：DF-2026-0305-001" {...field} />
+                          <Input placeholder="例：DF0000001" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
