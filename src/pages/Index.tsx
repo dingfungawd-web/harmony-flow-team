@@ -78,6 +78,7 @@ const submitToGoogleSheets = async (data: FormValues) => {
     date: format(data.date, "yyyy-MM-dd"),
     reportingDept: deptLabel(data.reportingDept),
     receivingDept: deptLabel(data.receivingDept),
+    abnormalCategory: data.abnormalCategory,
     description: data.description,
     impactTypes: impactLabels(data.impactTypes),
     impactDetail: data.impactDetail,
@@ -264,6 +265,31 @@ const Index = () => {
                     )}
                   />
                 </div>
+
+                {/* Abnormal Category */}
+                <FormField
+                  control={form.control}
+                  name="abnormalCategory"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>異常情況分類</FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="請先選擇接收部門" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="placeholder_category">待設定分類</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormDescription className="text-xs">
+                        根據接收部門顯示對應的異常分類選項
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
                 {/* Description */}
                 <FormField
