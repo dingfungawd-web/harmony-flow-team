@@ -31,11 +31,8 @@ const impactTypes = [
   { id: "customer_complaint", label: "客戶投訴" },
 ] as const;
 
-const causeCategories = [
-  { value: "technical", label: "技術問題" },
-  { value: "process", label: "流程問題" },
-  { value: "environment", label: "環境因素" },
-] as const;
+
+
 
 const formSchema = z.object({
   caseId: z.string().regex(/^DF\d{7}$/, "請輸入正確格式：DFXXXXXXX（DF後接7位數字）"),
@@ -53,8 +50,8 @@ const formSchema = z.object({
     ),
   impactTypes: z.array(z.string()).min(1, "請至少選擇一項影響類型"),
   impactDetail: z.string().min(5, "請具體描述影響程度").max(300, "不能超過300字"),
-  causeCategory: z.string().min(1, "請選擇原因類別"),
-  causeDetail: z.string().min(5, "請具體描述原因分析").max(300, "不能超過300字"),
+
+
   improvement: z.string().min(10, "改善建議至少需要10個字").max(500, "不能超過500字"),
 }).refine((data) => data.reportingDept !== data.receivingDept, {
   message: "反映部門與接收部門不能相同",
@@ -68,8 +65,8 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby3wzoCuesM3odL
 const submitToGoogleSheets = async (data: FormValues) => {
   const deptLabel = (val: string) =>
     departments.find((d) => d.value === val)?.label ?? val;
-  const causeLabel = (val: string) =>
-    causeCategories.find((c) => c.value === val)?.label ?? val;
+
+
   const impactLabels = (vals: string[]) =>
     vals.map((v) => impactTypes.find((i) => i.id === v)?.label ?? v).join("、");
 
@@ -82,8 +79,8 @@ const submitToGoogleSheets = async (data: FormValues) => {
     description: data.description,
     impactTypes: impactLabels(data.impactTypes),
     impactDetail: data.impactDetail,
-    causeCategory: causeLabel(data.causeCategory),
-    causeDetail: data.causeDetail,
+
+
     improvement: data.improvement,
   };
 
@@ -112,8 +109,8 @@ const Index = () => {
       description: "",
       impactTypes: [],
       impactDetail: "",
-      causeCategory: "",
-      causeDetail: "",
+
+
       improvement: "",
     },
   });
@@ -373,51 +370,8 @@ const Index = () => {
                   />
                 </div>
 
-                {/* Cause Analysis */}
-                <div className="space-y-4 rounded-lg border border-border bg-muted/30 p-4">
-                  <h3 className="text-sm font-semibold text-foreground">接收方原因分析</h3>
-                  <FormField
-                    control={form.control}
-                    name="causeCategory"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-sm">原因類別</FormLabel>
-                        <Select onValueChange={field.onChange} value={field.value}>
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="選擇原因類別" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {causeCategories.map((cat) => (
-                              <SelectItem key={cat.value} value={cat.value}>
-                                {cat.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="causeDetail"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-sm">原因詳細分析</FormLabel>
-                        <FormControl>
-                          <Textarea
-                            placeholder="請分析導致此異常的根本原因..."
-                            className="min-h-[80px] resize-y"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+
+
 
                 {/* Improvement */}
                 <FormField
