@@ -62,31 +62,9 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-// Google Forms configuration
-// Replace these with your actual Google Form field entry IDs
-const GOOGLE_FORM_CONFIG = {
-  formUrl: "", // e.g. "https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse"
-  fields: {
-    caseId: "entry.000000001",
-    date: "entry.000000002",
-    reportingDept: "entry.000000003",
-    receivingDept: "entry.000000004",
-    description: "entry.000000005",
-    impactTypes: "entry.000000006",
-    impactDetail: "entry.000000007",
-    causeCategory: "entry.000000008",
-    causeDetail: "entry.000000009",
-    improvement: "entry.000000010",
-  },
-};
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby3wzoCuesM3odL4tuhlR_iCRc2eeWeWd5MEMAulnEIGZqQiOk-YbsbpYcZQBEZCkPpXQ/exec";
 
-const submitToGoogleForms = async (data: FormValues) => {
-  if (!GOOGLE_FORM_CONFIG.formUrl) {
-    console.warn("Google Form URL not configured. Data:", data);
-    // Simulate success for demo
-    return true;
-  }
-
+const submitToGoogleSheets = async (data: FormValues) => {
   const deptLabel = (val: string) =>
     departments.find((d) => d.value === val)?.label ?? val;
   const causeLabel = (val: string) =>
@@ -94,22 +72,24 @@ const submitToGoogleForms = async (data: FormValues) => {
   const impactLabels = (vals: string[]) =>
     vals.map((v) => impactTypes.find((i) => i.id === v)?.label ?? v).join("、");
 
-  const formData = new URLSearchParams();
-  formData.append(GOOGLE_FORM_CONFIG.fields.caseId, data.caseId);
-  formData.append(GOOGLE_FORM_CONFIG.fields.date, format(data.date, "yyyy-MM-dd"));
-  formData.append(GOOGLE_FORM_CONFIG.fields.reportingDept, deptLabel(data.reportingDept));
-  formData.append(GOOGLE_FORM_CONFIG.fields.receivingDept, deptLabel(data.receivingDept));
-  formData.append(GOOGLE_FORM_CONFIG.fields.description, data.description);
-  formData.append(GOOGLE_FORM_CONFIG.fields.impactTypes, impactLabels(data.impactTypes));
-  formData.append(GOOGLE_FORM_CONFIG.fields.impactDetail, data.impactDetail);
-  formData.append(GOOGLE_FORM_CONFIG.fields.causeCategory, causeLabel(data.causeCategory));
-  formData.append(GOOGLE_FORM_CONFIG.fields.causeDetail, data.causeDetail);
-  formData.append(GOOGLE_FORM_CONFIG.fields.improvement, data.improvement);
+  const payload = {
+    caseId: data.caseId,
+    date: format(data.date, "yyyy-MM-dd"),
+    reportingDept: deptLabel(data.reportingDept),
+    receivingDept: deptLabel(data.receivingDept),
+    description: data.description,
+    impactTypes: impactLabels(data.impactTypes),
+    impactDetail: data.impactDetail,
+    causeCategory: causeLabel(data.causeCategory),
+    causeDetail: data.causeDetail,
+    improvement: data.improvement,
+  };
 
-  await fetch(GOOGLE_FORM_CONFIG.formUrl, {
+  const response = await fetch(APPS_SCRIPT_URL, {
     method: "POST",
     mode: "no-cors",
-    body: formData,
+    headers: { "Content-Type": "text/plain" },
+    body: JSON.stringify(payload),
   });
 
   return true;
