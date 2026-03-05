@@ -19,7 +19,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDes
 import { cn } from "@/lib/utils";
 
 const departments = [
-  { value: "online_sales", label: "線上銷售部" },
+  { value: "sales", label: "銷售部" },
   { value: "measurement", label: "度尺部" },
   { value: "installation", label: "安裝部" },
   { value: "after_sales", label: "售後部" },
@@ -42,6 +42,7 @@ const formSchema = z.object({
   date: z.date({ required_error: "請選擇日期" }),
   reportingDept: z.string().min(1, "請選擇反映部門"),
   receivingDept: z.string().min(1, "請選擇接收部門"),
+  abnormalCategory: z.string().min(1, "請選擇異常情況分類"),
   description: z
     .string()
     .min(10, "描述至少需要10個字")
@@ -77,6 +78,7 @@ const submitToGoogleSheets = async (data: FormValues) => {
     date: format(data.date, "yyyy-MM-dd"),
     reportingDept: deptLabel(data.reportingDept),
     receivingDept: deptLabel(data.receivingDept),
+    abnormalCategory: data.abnormalCategory,
     description: data.description,
     impactTypes: impactLabels(data.impactTypes),
     impactDetail: data.impactDetail,
@@ -106,6 +108,7 @@ const Index = () => {
       date: new Date(),
       reportingDept: "",
       receivingDept: "",
+      abnormalCategory: "",
       description: "",
       impactTypes: [],
       impactDetail: "",
@@ -262,6 +265,31 @@ const Index = () => {
                     )}
                   />
                 </div>
+
+                {/* Abnormal Category */}
+                <FormField
+                  control={form.control}
+                  name="abnormalCategory"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>異常情況分類</FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="請先選擇接收部門" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="placeholder_category">待設定分類</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormDescription className="text-xs">
+                        根據接收部門顯示對應的異常分類選項
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
                 {/* Description */}
                 <FormField
