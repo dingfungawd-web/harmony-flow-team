@@ -118,7 +118,7 @@ const Index = () => {
   const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
     try {
-      await submitToGoogleForms(data);
+      await submitToGoogleSheets(data);
       setSubmitted(true);
       toast.success("異常反映表已成功提交！");
       form.reset();
