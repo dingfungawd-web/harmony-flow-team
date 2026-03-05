@@ -52,7 +52,7 @@ const formSchema = z.object({
   impactDetail: z.string().min(5, "請具體描述影響程度").max(300, "不能超過300字"),
 
 
-  improvement: z.string().min(10, "改善建議至少需要10個字").max(500, "不能超過500字"),
+  
 }).refine((data) => data.reportingDept !== data.receivingDept, {
   message: "反映部門與接收部門不能相同",
   path: ["receivingDept"],
@@ -81,7 +81,7 @@ const submitToGoogleSheets = async (data: FormValues) => {
     impactDetail: data.impactDetail,
 
 
-    improvement: data.improvement,
+    
   };
 
   const response = await fetch(APPS_SCRIPT_URL, {
@@ -111,7 +111,7 @@ const Index = () => {
       impactDetail: "",
 
 
-      improvement: "",
+      
     },
   });
 
@@ -373,24 +373,8 @@ const Index = () => {
 
 
 
-                {/* Improvement */}
-                <FormField
-                  control={form.control}
-                  name="improvement"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>長期改善建議（SOP優化）</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder="請提出具體可執行的改善方案，例如：建議在度尺Checklist增加「窗台突出物量度」項目..."
-                          className="min-h-[100px] resize-y"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+
+
 
                 {/* Submit */}
                 <Button
