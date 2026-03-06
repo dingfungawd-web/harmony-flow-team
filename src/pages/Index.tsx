@@ -36,6 +36,30 @@ const impactTypes = [
   { id: "customer_complaint", label: "客戶投訴" },
 ] as const;
 
+const abnormalCategories: Record<string, { value: string; label: string }[]> = {
+  sales: [
+    { value: "online_issue", label: "線上對接異常" },
+    { value: "estate_quote_issue", label: "常見屋苑報價異常" },
+    { value: "other", label: "其他" },
+  ],
+  measurement: [
+    { value: "plan_comm_issue", label: "方案溝通異常" },
+    { value: "measure_logic_issue", label: "度尺邏輯異常" },
+    { value: "other", label: "其他" },
+  ],
+  installation: [
+    { value: "furniture_damage", label: "家具損壞" },
+    { value: "other", label: "其他" },
+  ],
+  after_sales: [
+    { value: "reply_speed_issue", label: "回覆速度異常" },
+    { value: "other", label: "其他" },
+  ],
+  supplier: [
+    { value: "product_freq_issue", label: "產品問題頻率異常" },
+    { value: "other", label: "其他" },
+  ],
+};
 
 
 
