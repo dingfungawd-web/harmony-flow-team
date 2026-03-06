@@ -23,11 +23,12 @@ const departments = [
   { value: "measurement", label: "度尺部" },
   { value: "installation", label: "安裝部" },
   { value: "after_sales", label: "售後部" },
+  { value: "supplier", label: "供應商" },
 ] as const;
 
 const impactTypes = [
-  { id: "labor_loss", label: "工時損失" },
-  { id: "material_waste", label: "材料損耗" },
+  { id: "labor_delay", label: "工時延誤" },
+  { id: "extra_material", label: "額外材料" },
   { id: "customer_complaint", label: "客戶投訴" },
 ] as const;
 
