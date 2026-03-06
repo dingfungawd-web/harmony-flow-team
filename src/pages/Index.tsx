@@ -268,7 +268,7 @@ const Index = () => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>接收部門</FormLabel>
-                        <Select onValueChange={field.onChange} value={field.value}>
+                        <Select onValueChange={(val) => { field.onChange(val); form.setValue("abnormalCategory", ""); }} value={field.value}>
                           <FormControl>
                             <SelectTrigger>
                               <SelectValue placeholder="選擇接收部門" />
