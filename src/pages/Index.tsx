@@ -47,14 +47,13 @@ const formSchema = z.object({
   abnormalCategory: z.string().min(1, "請選擇異常情況分類"),
   description: z
     .string()
-    .min(10, "描述至少需要10個字")
-    .max(500, "描述不能超過500字")
+    .min(1, "請填寫異常事實描述")
     .refine(
       (val) => !/[！？!?]{2,}|垃圾|廢物|白痴|無能|離譜|搞什麼/.test(val),
       "請以客觀事實描述，避免使用情緒性字眼"
     ),
   impactTypes: z.array(z.string()).min(1, "請至少選擇一項影響類型"),
-  impactDetail: z.string().min(5, "請具體描述影響程度").max(300, "不能超過300字"),
+  impactDetail: z.string().min(1, "請填寫影響程度描述"),
 
 
   
