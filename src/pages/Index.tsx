@@ -45,6 +45,7 @@ const abnormalCategories: Record<string, { value: string; label: string }[]> = {
   measurement: [
     { value: "plan_comm_issue", label: "方案溝通異常" },
     { value: "measure_logic_issue", label: "度尺邏輯異常" },
+    { value: "order_material_issue", label: "訂料異常" },
     { value: "other", label: "其他" },
   ],
   installation: [
