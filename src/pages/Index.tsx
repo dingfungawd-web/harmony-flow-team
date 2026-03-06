@@ -295,25 +295,37 @@ const Index = () => {
                 <FormField
                   control={form.control}
                   name="abnormalCategory"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>異常情況分類</FormLabel>
-                      <Select onValueChange={field.onChange} value={field.value}>
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="請先選擇接收部門" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="placeholder_category">待設定分類</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormDescription className="text-xs">
-                        根據接收部門顯示對應的異常分類選項
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  render={({ field }) => {
+                    const receivingDeptValue = form.watch("receivingDept");
+                    const categories = receivingDeptValue ? (abnormalCategories[receivingDeptValue] ?? []) : [];
+                    return (
+                      <FormItem>
+                        <FormLabel>異常情況分類</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value}
+                          disabled={!receivingDeptValue}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder={receivingDeptValue ? "選擇異常情況分類" : "請先選擇接收部門"} />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {categories.map((cat) => (
+                              <SelectItem key={cat.value} value={cat.label}>
+                                {cat.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormDescription className="text-xs">
+                          根據接收部門顯示對應的異常分類選項
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    );
+                  }}
                 />
 
                 {/* Description */}
