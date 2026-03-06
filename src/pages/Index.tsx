@@ -18,11 +18,15 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 
-const departments = [
+const reportingDepts = [
   { value: "sales", label: "銷售部" },
   { value: "measurement", label: "度尺部" },
   { value: "installation", label: "安裝部" },
   { value: "after_sales", label: "售後部" },
+] as const;
+
+const receivingDepts = [
+  ...reportingDepts,
   { value: "supplier", label: "供應商" },
 ] as const;
 
