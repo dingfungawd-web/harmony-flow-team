@@ -18,11 +18,15 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 
-const departments = [
+const reportingDepts = [
   { value: "sales", label: "銷售部" },
   { value: "measurement", label: "度尺部" },
   { value: "installation", label: "安裝部" },
   { value: "after_sales", label: "售後部" },
+] as const;
+
+const receivingDepts = [
+  ...reportingDepts,
   { value: "supplier", label: "供應商" },
 ] as const;
 
@@ -65,7 +69,7 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby3wzoCuesM3odL
 
 const submitToGoogleSheets = async (data: FormValues) => {
   const deptLabel = (val: string) =>
-    departments.find((d) => d.value === val)?.label ?? val;
+    receivingDepts.find((d) => d.value === val)?.label ?? val;
 
 
   const impactLabels = (vals: string[]) =>
@@ -224,7 +228,7 @@ const Index = () => {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {departments.map((dept) => (
+                            {reportingDepts.map((dept) => (
                               <SelectItem key={dept.value} value={dept.value}>
                                 {dept.label}
                               </SelectItem>
@@ -248,7 +252,7 @@ const Index = () => {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {departments.map((dept) => (
+                            {receivingDepts.map((dept) => (
                               <SelectItem key={dept.value} value={dept.value}>
                                 {dept.label}
                               </SelectItem>
