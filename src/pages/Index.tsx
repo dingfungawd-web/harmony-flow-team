@@ -69,7 +69,7 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby3wzoCuesM3odL
 
 const submitToGoogleSheets = async (data: FormValues) => {
   const deptLabel = (val: string) =>
-    departments.find((d) => d.value === val)?.label ?? val;
+    receivingDepts.find((d) => d.value === val)?.label ?? val;
 
 
   const impactLabels = (vals: string[]) =>
@@ -228,7 +228,7 @@ const Index = () => {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {departments.map((dept) => (
+                            {reportingDepts.map((dept) => (
                               <SelectItem key={dept.value} value={dept.value}>
                                 {dept.label}
                               </SelectItem>
@@ -252,7 +252,7 @@ const Index = () => {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {departments.map((dept) => (
+                            {receivingDepts.map((dept) => (
                               <SelectItem key={dept.value} value={dept.value}>
                                 {dept.label}
                               </SelectItem>
