@@ -36,6 +36,30 @@ const impactTypes = [
   { id: "customer_complaint", label: "客戶投訴" },
 ] as const;
 
+const abnormalCategories: Record<string, { value: string; label: string }[]> = {
+  sales: [
+    { value: "online_issue", label: "線上對接異常" },
+    { value: "estate_quote_issue", label: "常見屋苑報價異常" },
+    { value: "other", label: "其他" },
+  ],
+  measurement: [
+    { value: "plan_comm_issue", label: "方案溝通異常" },
+    { value: "measure_logic_issue", label: "度尺邏輯異常" },
+    { value: "other", label: "其他" },
+  ],
+  installation: [
+    { value: "furniture_damage", label: "家具損壞" },
+    { value: "other", label: "其他" },
+  ],
+  after_sales: [
+    { value: "reply_speed_issue", label: "回覆速度異常" },
+    { value: "other", label: "其他" },
+  ],
+  supplier: [
+    { value: "product_freq_issue", label: "產品問題頻率異常" },
+    { value: "other", label: "其他" },
+  ],
+};
 
 
 
@@ -244,7 +268,7 @@ const Index = () => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>接收部門</FormLabel>
-                        <Select onValueChange={field.onChange} value={field.value}>
+                        <Select onValueChange={(val) => { field.onChange(val); form.setValue("abnormalCategory", ""); }} value={field.value}>
                           <FormControl>
                             <SelectTrigger>
                               <SelectValue placeholder="選擇接收部門" />
@@ -271,25 +295,37 @@ const Index = () => {
                 <FormField
                   control={form.control}
                   name="abnormalCategory"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>異常情況分類</FormLabel>
-                      <Select onValueChange={field.onChange} value={field.value}>
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="請先選擇接收部門" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="placeholder_category">待設定分類</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormDescription className="text-xs">
-                        根據接收部門顯示對應的異常分類選項
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  render={({ field }) => {
+                    const receivingDeptValue = form.watch("receivingDept");
+                    const categories = receivingDeptValue ? (abnormalCategories[receivingDeptValue] ?? []) : [];
+                    return (
+                      <FormItem>
+                        <FormLabel>異常情況分類</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value}
+                          disabled={!receivingDeptValue}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder={receivingDeptValue ? "選擇異常情況分類" : "請先選擇接收部門"} />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {categories.map((cat) => (
+                              <SelectItem key={cat.value} value={cat.label}>
+                                {cat.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormDescription className="text-xs">
+                          根據接收部門顯示對應的異常分類選項
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    );
+                  }}
                 />
 
                 {/* Description */}
