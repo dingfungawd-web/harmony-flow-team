@@ -38,25 +38,32 @@ const impactTypes = [
 
 const abnormalCategories: Record<string, { value: string; label: string }[]> = {
   sales: [
-    { value: "online_issue", label: "線上對接異常" },
+    { value: "cat_awareness", label: "護貓意識不足夠" },
+    { value: "online_comm_issue", label: "線上溝通異常" },
     { value: "estate_quote_issue", label: "常見屋苑報價異常" },
+    { value: "schedule_issue", label: "預約排期異常" },
     { value: "other", label: "其他" },
   ],
   measurement: [
+    { value: "cat_awareness", label: "護貓意識不足夠" },
     { value: "plan_comm_issue", label: "方案溝通異常" },
+    { value: "report_issue", label: "資料匯報異常" },
     { value: "measure_logic_issue", label: "度尺邏輯異常" },
     { value: "order_material_issue", label: "訂料異常" },
     { value: "other", label: "其他" },
   ],
   installation: [
+    { value: "cat_awareness", label: "護貓意識不足夠" },
     { value: "furniture_damage", label: "家具損壞" },
     { value: "other", label: "其他" },
   ],
   after_sales: [
+    { value: "cat_awareness", label: "護貓意識不足夠" },
     { value: "reply_speed_issue", label: "回覆速度異常" },
     { value: "other", label: "其他" },
   ],
   supplier: [
+    { value: "roller_lock_issue", label: "漢紗回卷鎖脷問題" },
     { value: "product_freq_issue", label: "產品問題頻率異常" },
     { value: "other", label: "其他" },
   ],
